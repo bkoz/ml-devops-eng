@@ -1,11 +1,9 @@
-# your task is to clean this script in 
-# a way that uses the code as a single function 
-# that takes a path and returns the total_price variable
-# that meets pep8 standards and receives a 10 score using pylint
+"""
+Clean code exercise.
 
-# You may need to:
-# pip install autopep8 
-# pip install pylint
+Author: bkozdemba@gmail.com
+Date: April 2022
+"""
 
 import time
 import numpy as np
@@ -18,7 +16,7 @@ def get_total_price(filepath):
     # Remove the trailing null char or the following numpy call will fail.
     # that converts strings to ints.
     gift_costs = gift_costs[0:-1]
-    gift_costs = np.array(gift_costs).astype(int)  
+    gift_costs = np.array(gift_costs).astype(int)
 
     return (gift_costs[gift_costs < 25]).sum() * 1.08
 
