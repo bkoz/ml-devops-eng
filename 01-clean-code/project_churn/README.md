@@ -23,14 +23,7 @@ conda env create -f environment.yaml
 Manual steps for creating the Conda environment.
 
 ```
-conda create --name=ml-devops-eng python=3.8
-conda activate ml-devops-eng
-conda install shap
-conda install scikit-learn
-conda install joblib pandas numpy
-conda install matplotlib seaborn
-conda install pylint autopep8
-conda install jupyterlab
+conda create --name=ml-devops-eng python=3.8 shap scikit-learn joblib pandas numpy matplotlib seaborn pylint autopep8 jupyterlab
 ```
 
 ## Running Files
