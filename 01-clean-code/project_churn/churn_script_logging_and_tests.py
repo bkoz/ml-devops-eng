@@ -1,12 +1,21 @@
 import os
 import logging
-import churn_library_solution as cls
+import churn_library as cl
+import pytest
 
 logging.basicConfig(
     filename='./logs/churn_library.log',
     level = logging.INFO,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
+
+@pytest.fixture(scope="module")
+def import_data():
+	'''
+	Fixture - The test function test_import() will 
+	use the return of import_data() as an argument
+	'''
+	return cl.import_data
 
 def test_import(import_data):
 	'''

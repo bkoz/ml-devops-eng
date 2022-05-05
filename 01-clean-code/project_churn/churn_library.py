@@ -1,10 +1,20 @@
 # library doc string
-
+'''
+Churn library.
+'''
 
 # import libraries
 import os
+import pandas as pd
+import logging
+
 os.environ['QT_QPA_PLATFORM']='offscreen'
 
+logging.basicConfig(
+    filename='./logs/churn_library.log',
+    level = logging.INFO,
+    filemode='w',
+    format='%(name)s - %(levelname)s - %(message)s')
 
 
 def import_data(pth):
@@ -16,7 +26,13 @@ def import_data(pth):
     output:
             df: pandas dataframe
     '''	
-	pass
+    try:
+        df = pd.read_csv(pth)
+        logging.info("import_data: SUCCESS")
+        return df
+    except FileNotFoundError as err:
+        logging.error("import_data: The file wasn't found")
+        return None
 
 
 def perform_eda(df):
@@ -28,7 +44,7 @@ def perform_eda(df):
     output:
             None
     '''
-	pass
+    pass
 
 
 def encoder_helper(df, category_lst, response):
@@ -59,6 +75,7 @@ def perform_feature_engineering(df, response):
               y_train: y training data
               y_test: y testing data
     '''
+    pass
 
 def classification_report_image(y_train,
                                 y_test,
@@ -108,3 +125,6 @@ def train_models(X_train, X_test, y_train, y_test):
               None
     '''
     pass
+
+if __name__ == "__main__":
+	df = import_data('./data/bank_data.cs')
