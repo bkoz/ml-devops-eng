@@ -1,0 +1,6 @@
+root : INFO : import_data : SUCCESS
+root : INFO : perform_eda: churn histogram : SUCCESS
+root : INFO : perform_eda: customer_age histogram : SUCCESS
+root : INFO : perform_eda: plot marital status counts : SUCCESS
+root : INFO : perform_eda: plot total transaction histogram : SUCCESS
+root : INFO : perform_eda: plot heatmap : SUCCESS
