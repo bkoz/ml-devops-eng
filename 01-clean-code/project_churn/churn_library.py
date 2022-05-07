@@ -8,6 +8,9 @@ import os
 import pandas as pd
 import logging
 import matplotlib.pyplot as plt
+import time
+import numpy as np
+import joblib
 import seaborn as sns; sns.set()
 from sklearn.preprocessing import normalize
 from sklearn.model_selection import train_test_split
@@ -195,7 +198,31 @@ def classification_report_image(y_train,
     output:
              None
     '''
-    pass
+    # Save the random forest classification report image.
+    #
+    # Clear the current figure.
+    plt.close()
+    plt.clf()
+    plt.rc('figure', figsize=(5, 5))
+    plt.text(0.01, 1.25, str('Random Forest Train'), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.05, str(classification_report(y_test, y_test_preds_rf)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
+    plt.text(0.01, 0.6, str('Random Forest Test'), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.7, str(classification_report(y_train, y_train_preds_rf)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
+    plt.axis('off')
+    plt.savefig("./images/rf_classification_report.png")
+    logging.info("%s : %s", "classification_report_image: random forest", "SUCCESS")
+
+    # Save the logistic regression classification report image.
+    plt.close()
+    plt.clf()
+    plt.rc('figure', figsize=(5, 5))
+    plt.text(0.01, 1.25, str('Logistic Regression Train'), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.05, str(classification_report(y_train, y_train_preds_lr)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
+    plt.text(0.01, 0.6, str('Logistic Regression Test'), {'fontsize': 10}, fontproperties = 'monospace')
+    plt.text(0.01, 0.7, str(classification_report(y_test, y_test_preds_lr)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
+    plt.axis('off')
+    plt.savefig("./images/lr_classification_report.png")
+    logging.info("%s : %s", "classification_report_image: logistic regression", "SUCCESS")
 
 
 def feature_importance_plot(model, X_data, output_pth):
@@ -209,7 +236,32 @@ def feature_importance_plot(model, X_data, output_pth):
     output:
              None
     '''
-    pass
+    # Calculate feature importances and plot
+    importances = model.best_estimator_.feature_importances_
+    # Sort feature importances in descending order
+    indices = np.argsort(importances)[::-1]
+
+    # Rearrange feature names so they match the sorted feature importances
+    names = [X_data.columns[i] for i in indices]
+
+    # Create plot
+    plt.close()
+    plt.clf()
+    plt.figure(figsize=(20,5))
+
+    # Create plot title
+    plt.title("Feature Importance")
+    plt.ylabel('Importance')
+
+    # Add bars
+    plt.bar(range(X_data.shape[1]), importances[indices])
+
+    # Add feature names as x-axis labels
+    plt.xticks(range(X_data.shape[1]), names, rotation=90)
+
+    plt.savefig(output_pth)
+    logging.info("%s : %s", "feature_importance_plot: saved feature report to ", output_pth)
+
 
 def train_models(X_train, X_test, y_train, y_test):
     '''
@@ -236,10 +288,17 @@ def train_models(X_train, X_test, y_train, y_test):
     }
 
     cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
+
+    logging.info("%s : %s", "train_models: GridSearch", "Running")
+    t0 = time.time()
     cv_rfc.fit(X_train, y_train)
+    logging.info("%s : %s : %f secs", "train_models: GridSearch", "SUCCESS", time.time() - t0)
 
+    logging.info("%s : %s", "train_models: Logistic Regression", "Running")
+    t0 = time.time()
     lrc.fit(X_train, y_train)
-
+    logging.info("%s : %s : %f secs", "train_models: Logistic Regression", "SUCCESS", time.time() - t0)
+    
     y_train_preds_rf = cv_rfc.best_estimator_.predict(X_train)
     y_test_preds_rf = cv_rfc.best_estimator_.predict(X_test)
 
@@ -258,6 +317,16 @@ def train_models(X_train, X_test, y_train, y_test):
     print(classification_report(y_test, y_test_preds_lr))
     print('train results')
     print(classification_report(y_train, y_train_preds_lr))
+
+    # Save the models
+    joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
+    joblib.dump(lrc, './models/logistic_model.pkl')
+
+    # Save scores as images.
+    classification_report_image(y_train, y_test, y_train_preds_lr, y_train_preds_rf, y_test_preds_lr, y_test_preds_rf)
+
+    # Save the feature importance images.
+    feature_importance_plot(cv_rfc, X_train, './images/cv_feature_importance.png')
 
 if __name__ == "__main__":
     df = import_data('./data/bank_data.csv')
