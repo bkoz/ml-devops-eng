@@ -89,6 +89,34 @@ def perform_eda(df):
     plt.savefig("./images/heatmap.png")
     logging.info("%s : %s", "perform_eda: plot heatmap", "SUCCESS")
 
+def new_encoder_helper(df, category_lst, response):
+    '''
+    helper function to turn each categorical column into a new column with
+    propotion of churn for each category - associated with cell 15 from the notebook
+
+    input:
+            df: pandas dataframe
+            category_lst: list of columns that contain categorical features
+            response: string of response name [optional argument that could be used for naming variables or index y column]
+
+    output:
+            df: pandas dataframe with new columns for
+    '''
+    # lst = []
+    for category in category_lst:
+        lst = []
+        # groups = df.groupby('Gender').mean()['Churn']
+        logging.info("category: %s", category)
+        groups = df.groupby(category).mean()['Churn']
+
+        for val in df[category]:
+            lst.append(groups.loc[val])
+        
+        logging.info("category: %s", category)
+        
+        df[f'{category}_Churn'] = lst
+    
+    return df    
 
 def encoder_helper(df, category_lst, response):
     '''
@@ -331,6 +359,10 @@ def train_models(X_train, X_test, y_train, y_test):
 if __name__ == "__main__":
     df = import_data('./data/bank_data.csv')
     perform_eda(df)
-    encoder_helper(df, None, None)
+    logging.info("Before helper: %s", df.columns)
+    cat_lst = ['Gender', 'Education_Level', 'Marital_Status', 'Income_Category', 'Card_Category']
+    df = new_encoder_helper(df, cat_lst, None)
+    # df = encoder_helper(df, None, None)
+    logging.info("After helper: %s", df.columns)
     X_train, X_test, y_train, y_test = perform_feature_engineering(df, None)
-    train_models(X_train, X_test, y_train, y_test)
+    # train_models(X_train, X_test, y_train, y_test)
