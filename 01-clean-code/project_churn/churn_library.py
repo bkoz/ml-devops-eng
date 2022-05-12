@@ -89,7 +89,7 @@ def perform_eda(df):
     plt.savefig("./images/heatmap.png")
     logging.info("%s : %s", "perform_eda: plot heatmap", "SUCCESS")
 
-def new_encoder_helper(df, category_lst, response):
+def encoder_helper(df, category_lst, response):
     '''
     helper function to turn each categorical column into a new column with
     propotion of churn for each category - associated with cell 15 from the notebook
@@ -324,7 +324,7 @@ if __name__ == "__main__":
         'Total_Ct_Chng_Q4_Q1', 
         'Avg_Utilization_Ratio'
     ]
-    df = new_encoder_helper(df, cat_columns, None)
+    df = encoder_helper(df, cat_columns, None)
     logging.info("After helper: %s", df.columns)
     X_train, X_test, y_train, y_test = perform_feature_engineering(df, None)
     train_models(X_train, X_test, y_train, y_test)
