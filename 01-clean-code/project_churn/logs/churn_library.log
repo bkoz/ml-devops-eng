@@ -34,9 +34,9 @@ root : INFO : After helper: Index(['Unnamed: 0', 'CLIENTNUM', 'Attrition_Flag', 
        'Marital_Status_Churn', 'Income_Category_Churn', 'Card_Category_Churn'],
       dtype='object')
 root : INFO : train_models: GridSearch : Running
-root : INFO : train_models: GridSearch : SUCCESS : 153.626864 secs
+root : INFO : train_models: GridSearch : SUCCESS : 154.560873 secs
 root : INFO : train_models: Logistic Regression : Running
-root : INFO : train_models: Logistic Regression : SUCCESS : 0.083547 secs
+root : INFO : train_models: Logistic Regression : SUCCESS : 0.077074 secs
 root : INFO : classification_report_image: random forest : SUCCESS
 root : INFO : classification_report_image: logistic regression : SUCCESS
 root : INFO : feature_importance_plot: saved feature report to  : ./images/cv_feature_importance.png

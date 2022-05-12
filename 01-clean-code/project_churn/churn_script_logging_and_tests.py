@@ -5,9 +5,9 @@ import pytest
 
 logging.basicConfig(
     filename='./logs/churn_library.log',
-    level = logging.INFO,
-    filemode='w',
-    format='%(name)s - %(levelname)s - %(message)s')
+	level = logging.INFO,
+	filemode='w',
+	format='%(name)s - %(levelname)s - %(message)s')
 
 @pytest.fixture(scope="module")
 def import_data():

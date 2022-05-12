@@ -5,20 +5,21 @@ Churn library.
 
 # import libraries
 import os
-import pandas as pd
 import logging
-import matplotlib.pyplot as plt
 import time
-import numpy as np
-import joblib
-import seaborn as sns; sns.set()
 from sklearn.preprocessing import normalize
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
-
 from sklearn.metrics import plot_roc_curve, classification_report
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import joblib
+import seaborn as sns
+
+sns.set()
 
 os.environ['QT_QPA_PLATFORM']='offscreen'
 
@@ -36,92 +37,92 @@ def import_data(pth):
     input:
             pth: a path to the csv
     output:
-            df: pandas dataframe
+            data_frame: pandas dataframe
     '''	
     try:
-        df = pd.read_csv(pth)
+        data_frame = pd.read_csv(pth)
         logging.info("%s : %s", "import_data", "SUCCESS")
-        return df
+        return data_frame
     except FileNotFoundError as err:
         logging.error("import_data: The file wasn't found")
         return None
 
 
-def perform_eda(df):
+def perform_eda(data_frame):
     '''
-    perform eda on df and save figures to images folder
+    perform eda on data_frame and save figures to images folder
     input:
-            df: pandas dataframe
+            data_frame: pandas dataframe
 
     output:
             None
     '''
     # Make sure Attrition_Flag is either 0 or 1
-    df['Churn'] = df['Attrition_Flag'].apply(lambda val: 0 if val == "Existing Customer" else 1)
+    data_frame['Churn'] = data_frame['Attrition_Flag'].apply(lambda val: 0 if val == "Existing Customer" else 1)
     
     # Plot a Churn histogram.
     plt.figure(figsize=(20,10)) 
-    df['Churn'].hist()
+    data_frame['Churn'].hist()
     plt.savefig("./images/churn_histogram.png")
     logging.info("%s : %s", "perform_eda: churn histogram", "SUCCESS")
 
     # Plot a Customer_Age histogram.
     plt.figure(figsize=(20,10)) 
-    df['Customer_Age'].hist()
+    data_frame['Customer_Age'].hist()
     plt.savefig("./images/customer_age_histogram.png")
     logging.info("%s : %s", "perform_eda: customer_age histogram", "SUCCESS")
 
     # Plot the marital status counts.
     plt.figure(figsize=(20,10)) 
-    df.Marital_Status.value_counts('normalize').plot(kind='bar')
+    data_frame.Marital_Status.value_counts('normalize').plot(kind='bar')
     plt.savefig("./images/marital_status_counts.png")
     logging.info("%s : %s", "perform_eda: plot marital status counts", "SUCCESS")
 
     # Plot the total transaction histogram.
     plt.figure(figsize=(20,10)) 
-    sns.histplot(df['Total_Trans_Ct'], stat='density', kde=True)
+    sns.histplot(data_frame['Total_Trans_Ct'], stat='density', kde=True)
     plt.savefig("./images/total_transaction_histogram.png")
     logging.info("%s : %s", "perform_eda: plot total transaction histogram", "SUCCESS")
 
     # Plot the heat map.
     plt.figure(figsize=(20,10))
-    sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths = 2)
+    sns.heatmap(data_frame.corr(), annot=False, cmap='Dark2_r', linewidths = 2)
     plt.savefig("./images/heatmap.png")
     logging.info("%s : %s", "perform_eda: plot heatmap", "SUCCESS")
 
-def encoder_helper(df, category_lst, response):
+def encoder_helper(data_frame, category_lst, response):
     '''
     helper function to turn each categorical column into a new column with
     propotion of churn for each category - associated with cell 15 from the notebook
 
     input:
-            df: pandas dataframe
+            data_frame: pandas dataframe
             category_lst: list of columns that contain categorical features
             response: string of response name [optional argument that could be used for naming variables or index y column]
 
     output:
-            df: pandas dataframe with new columns for
+            data_frame: pandas dataframe with new columns for
     '''
     # lst = []
     for category in category_lst:
         lst = []
-        # groups = df.groupby('Gender').mean()['Churn']
+        # groups = data_frame.groupby('Gender').mean()['Churn']
         logging.info("category: %s", category)
-        groups = df.groupby(category).mean()['Churn']
+        groups = data_frame.groupby(category).mean()['Churn']
 
-        for val in df[category]:
+        for val in data_frame[category]:
             lst.append(groups.loc[val])
         
         logging.info("category: %s", category)
         
-        df[f'{category}_Churn'] = lst
+        data_frame[f'{category}_Churn'] = lst
     
-    return df    
+    return data_frame    
 
-def perform_feature_engineering(df, response):
+def perform_feature_engineering(data_frame, response):
     '''
     input:
-              df: pandas dataframe
+              data_frame: pandas dataframe
               response: string of response name [optional argument that could be used for naming variables or index y column]
 
     output:
@@ -130,7 +131,7 @@ def perform_feature_engineering(df, response):
               y_train: y training data
               y_test: y testing data
     '''
-    y = df['Churn']
+    y = data_frame['Churn']
     X = pd.DataFrame()
     keep_cols = ['Customer_Age', 'Dependent_count', 'Months_on_book',
                 'Total_Relationship_Count', 'Months_Inactive_12_mon',
@@ -140,7 +141,7 @@ def perform_feature_engineering(df, response):
                 'Gender_Churn', 'Education_Level_Churn', 'Marital_Status_Churn', 
                 'Income_Category_Churn', 'Card_Category_Churn']
 
-    X[keep_cols] = df[keep_cols]
+    X[keep_cols] = data_frame[keep_cols]
 
     # train test split 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.3, random_state=42)
@@ -258,14 +259,14 @@ def train_models(X_train, X_test, y_train, y_test):
     cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
 
     logging.info("%s : %s", "train_models: GridSearch", "Running")
-    t0 = time.time()
+    start_time = time.time()
     cv_rfc.fit(X_train, y_train)
-    logging.info("%s : %s : %f secs", "train_models: GridSearch", "SUCCESS", time.time() - t0)
+    logging.info("%s : %s : %f secs", "train_models: GridSearch", "SUCCESS", time.time() - start_time)
 
     logging.info("%s : %s", "train_models: Logistic Regression", "Running")
-    t0 = time.time()
+    start_time = time.time()
     lrc.fit(X_train, y_train)
-    logging.info("%s : %s : %f secs", "train_models: Logistic Regression", "SUCCESS", time.time() - t0)
+    logging.info("%s : %s : %f secs", "train_models: Logistic Regression", "SUCCESS", time.time() - start_time)
     
     y_train_preds_rf = cv_rfc.best_estimator_.predict(X_train)
     y_test_preds_rf = cv_rfc.best_estimator_.predict(X_test)
@@ -297,9 +298,9 @@ def train_models(X_train, X_test, y_train, y_test):
     feature_importance_plot(cv_rfc, X_train, './images/cv_feature_importance.png')
 
 if __name__ == "__main__":
-    df = import_data('./data/bank_data.csv')
-    perform_eda(df)
-    logging.info("Before helper: %s", df.columns)
+    data_frame = import_data('./data/bank_data.csv')
+    perform_eda(data_frame)
+    logging.info("Before helper: %s", data_frame.columns)
     cat_columns = [
     'Gender',
     'Education_Level',
@@ -324,7 +325,7 @@ if __name__ == "__main__":
         'Total_Ct_Chng_Q4_Q1', 
         'Avg_Utilization_Ratio'
     ]
-    df = encoder_helper(df, cat_columns, None)
-    logging.info("After helper: %s", df.columns)
-    X_train, X_test, y_train, y_test = perform_feature_engineering(df, None)
+    data_frame = encoder_helper(data_frame, cat_columns, None)
+    logging.info("After helper: %s", data_frame.columns)
+    X_train, X_test, y_train, y_test = perform_feature_engineering(data_frame, None)
     train_models(X_train, X_test, y_train, y_test)
