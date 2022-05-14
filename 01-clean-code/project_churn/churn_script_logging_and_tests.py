@@ -12,15 +12,14 @@ from genericpath import exists
 import pytest
 import churn_library as cl
 
-
+# Configure logging.
 logging.basicConfig(
 filename='./logs/churn_library.log',
 level=logging.INFO,
 filemode='w',
 encoding='utf-8',
-format='%(name)s - %(levelname)s - %(message)s')
-
-logger = logging.getLogger()
+format="%(asctime)-15s %(levelname)s: %(message)s")
+logger = logging.getLogger(__name__)
 
 @pytest.fixture(scope="module")
 def import_data():

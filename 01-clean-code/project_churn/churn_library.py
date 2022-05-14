@@ -111,22 +111,17 @@ def encoder_helper(data_frame, category_lst, response):
     output:
             data_frame: pandas dataframe with new columns for
     '''
-    # lst = []
     for category in category_lst:
         lst = []
-        # groups = data_frame.groupby('Gender').mean()['Churn']
-        logging.info("category: %s", category)
         groups = data_frame.groupby(category).mean()['Churn']
 
         for val in data_frame[category]:
             lst.append(groups.loc[val])
 
-        logging.info("category: %s", category)
-
         data_frame[f'{category}_Churn'] = lst
 
+    logging.info("encoder_helper: SUCCESS")
     return data_frame
-
 
 def perform_feature_engineering(data_frame, response):
     '''

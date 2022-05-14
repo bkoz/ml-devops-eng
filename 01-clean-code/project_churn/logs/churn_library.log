@@ -1,60 +1,40 @@
 INFO     root:churn_library.py:43 import_data : SUCCESS
-INFO     root:churn_script_logging_and_tests.py:40 Testing import_data: SUCCESS
+INFO     churn_script_logging_and_tests:churn_script_logging_and_tests.py:39 Testing import_data: SUCCESS
 INFO     root:churn_library.py:43 import_data : SUCCESS
 INFO     root:churn_library.py:67 perform_eda: churn histogram : SUCCESS
 INFO     root:churn_library.py:73 perform_eda: customer_age histogram : SUCCESS
 INFO     root:churn_library.py:79 perform_eda: plot marital status counts : SUCCESS
 INFO     root:churn_library.py:88 perform_eda: plot total transaction histogram : SUCCESS
 INFO     root:churn_library.py:97 perform_eda: plot heatmap : SUCCESS
-INFO     root:churn_script_logging_and_tests.py:75 Testing perform_eda: SUCCESS
+INFO     churn_script_logging_and_tests:churn_script_logging_and_tests.py:74 Testing perform_eda: SUCCESS
 INFO     root:churn_library.py:43 import_data : SUCCESS
 INFO     root:churn_library.py:67 perform_eda: churn histogram : SUCCESS
 INFO     root:churn_library.py:73 perform_eda: customer_age histogram : SUCCESS
 INFO     root:churn_library.py:79 perform_eda: plot marital status counts : SUCCESS
 INFO     root:churn_library.py:88 perform_eda: plot total transaction histogram : SUCCESS
 INFO     root:churn_library.py:97 perform_eda: plot heatmap : SUCCESS
-INFO     root:churn_library.py:118 category: Gender
-INFO     root:churn_library.py:124 category: Gender
-INFO     root:churn_library.py:118 category: Education_Level
-INFO     root:churn_library.py:124 category: Education_Level
-INFO     root:churn_library.py:118 category: Marital_Status
-INFO     root:churn_library.py:124 category: Marital_Status
-INFO     root:churn_library.py:118 category: Income_Category
-INFO     root:churn_library.py:124 category: Income_Category
-INFO     root:churn_library.py:118 category: Card_Category
-INFO     root:churn_library.py:124 category: Card_Category
-INFO     root:churn_script_logging_and_tests.py:126 Testing encoder_helper: SUCCESS
+INFO     root:churn_library.py:124 encoder_helper: SUCCESS
+INFO     churn_script_logging_and_tests:churn_script_logging_and_tests.py:125 Testing encoder_helper: SUCCESS
 INFO     root:churn_library.py:43 import_data : SUCCESS
 INFO     root:churn_library.py:67 perform_eda: churn histogram : SUCCESS
 INFO     root:churn_library.py:73 perform_eda: customer_age histogram : SUCCESS
 INFO     root:churn_library.py:79 perform_eda: plot marital status counts : SUCCESS
 INFO     root:churn_library.py:88 perform_eda: plot total transaction histogram : SUCCESS
 INFO     root:churn_library.py:97 perform_eda: plot heatmap : SUCCESS
-INFO     root:churn_library.py:118 category: Gender
-INFO     root:churn_library.py:124 category: Gender
-INFO     root:churn_library.py:118 category: Education_Level
-INFO     root:churn_library.py:124 category: Education_Level
-INFO     root:churn_library.py:118 category: Marital_Status
-INFO     root:churn_library.py:124 category: Marital_Status
-INFO     root:churn_library.py:118 category: Income_Category
-INFO     root:churn_library.py:124 category: Income_Category
-INFO     root:churn_library.py:118 category: Card_Category
-INFO     root:churn_library.py:124 category: Card_Category
-INFO     root:churn_script_logging_and_tests.py:179 Testing perform_feature_engineering: SUCCESS
+INFO     root:churn_library.py:124 encoder_helper: SUCCESS
+INFO     churn_script_logging_and_tests:churn_script_logging_and_tests.py:178 Testing perform_feature_engineering: SUCCESS
 INFO     root:churn_library.py:43 import_data : SUCCESS
 INFO     root:churn_library.py:67 perform_eda: churn histogram : SUCCESS
 INFO     root:churn_library.py:73 perform_eda: customer_age histogram : SUCCESS
 INFO     root:churn_library.py:79 perform_eda: plot marital status counts : SUCCESS
 INFO     root:churn_library.py:88 perform_eda: plot total transaction histogram : SUCCESS
 INFO     root:churn_library.py:97 perform_eda: plot heatmap : SUCCESS
-INFO     root:churn_library.py:118 category: Gender
-INFO     root:churn_library.py:124 category: Gender
-INFO     root:churn_library.py:118 category: Education_Level
-INFO     root:churn_library.py:124 category: Education_Level
-INFO     root:churn_library.py:118 category: Marital_Status
-INFO     root:churn_library.py:124 category: Marital_Status
-INFO     root:churn_library.py:118 category: Income_Category
-INFO     root:churn_library.py:124 category: Income_Category
-INFO     root:churn_library.py:118 category: Card_Category
-INFO     root:churn_library.py:124 category: Card_Category
-INFO     root:churn_script_logging_and_tests.py:235 Testing train_models: SUCCESS
+INFO     root:churn_library.py:124 encoder_helper: SUCCESS
+INFO     root:churn_library.py:301 train_models: GridSearch : Running
+INFO     root:churn_library.py:304 train_models: GridSearch : SUCCESS : 154.869452 secs
+INFO     root:churn_library.py:311 train_models: Logistic Regression : Running
+INFO     root:churn_library.py:314 train_models: Logistic Regression : SUCCESS : 0.077356 secs
+INFO     root:churn_library.py:208 classification_report_image: random forest : SUCCESS
+INFO     root:churn_library.py:227 classification_report_image: logistic regression : SUCCESS
+INFO     root:churn_library.py:268 feature_importance_plot: saved feature report to  : ./images/cv_feature_importance.png
+INFO     churn_script_logging_and_tests:churn_script_logging_and_tests.py:234 Testing train_models: SUCCESS
