@@ -3,8 +3,9 @@
 
 ### Course 1. - [Writing Clean Code](https://github.com/bkoz/nd0821-c1-clean-code.git)
 ### Course 2. - [Creating Reproducable Workflows](https://github.com/bkoz/nd0821-c2-build-model-workflow-starter.git)
+### Course 3. - [Creating Scalable Pipelines](https://github.com/bkoz/ml-devops-eng/tree/main/03-scalable-pipes)
 
-#### Check your code for cleanliness.
+#### Checkiing code for cleanliness.
 ```
 pylint <source-file>
 ```
