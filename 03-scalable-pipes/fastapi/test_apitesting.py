@@ -15,5 +15,5 @@ def test_api_locally_get_root():
     assert r.status_code == 404
     r = client.get("/malformed")
     assert r.status_code == 404
-    r = client.get("/items?count=2")
-    assert r.status_code == 404
+    r = client.get("/items/22?count=2")
+    assert r.status_code == 200
