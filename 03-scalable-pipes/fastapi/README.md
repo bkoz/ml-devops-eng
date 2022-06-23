@@ -27,3 +27,8 @@ File: `myserver.py`
 ```
 uvicorn myserver:app --reload
 ```
+Testing
+
+The `test_apitesting.py` file will be run by `pytest` without having to
+start `uvicorn` explicitly.
+
