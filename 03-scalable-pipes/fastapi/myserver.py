@@ -8,9 +8,13 @@ To get started, you can use the following snippet -- note the missing imports:
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+import logging
 
 # Instantiate the app.
 app = FastAPI()
+logger = logging.getLogger("uvicorn.info")
+
+logger.info("HELLO")
 
 class Value(BaseModel):
   value: int
